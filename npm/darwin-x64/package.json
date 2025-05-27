@@ -1,6 +1,6 @@
 {
-  "name": "@getexcitedapp/chompers-darwin-x64",
-  "version": "0.0.0",
+  "name": "@getexcited/chompers-darwin-x64",
+  "version": "1.0.0",
   "os": [
     "darwin"
   ],
@@ -11,8 +11,27 @@
   "files": [
     "chompers.darwin-x64.node"
   ],
+  "description": "High-performance native Node.js addon for enumerating and analyzing windows on Windows systems",
+  "keywords": [
+    "windows",
+    "window-enumeration",
+    "native",
+    "rust",
+    "napi",
+    "game-detection",
+    "monitor",
+    "multi-monitor",
+    "window-management",
+    "system"
+  ],
+  "author": "Chompers Contributors",
+  "homepage": "https://github.com/your-username/chompers#readme",
   "license": "MIT",
   "engines": {
-    "node": ">= 10"
+    "node": ">= 16"
+  },
+  "repository": "https://github.com/GetExcitedApp/chompers",
+  "bugs": {
+    "url": "https://github.com/your-username/chompers/issues"
   }
 }

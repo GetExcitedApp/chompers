@@ -1,3 +1,3 @@
-# `@getexcitedapp/chompers-win32-x64-msvc`
+# `@getexcited/chompers-win32-x64-msvc`
 
-This is the **x86_64-pc-windows-msvc** binary for `@getexcitedapp/chompers`
+This is the **x86_64-pc-windows-msvc** binary for `@getexcited/chompers`

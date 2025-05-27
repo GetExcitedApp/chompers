@@ -1,3 +1,3 @@
-# `@getexcitedapp/chompers-darwin-x64`
+# `@getexcited/chompers-darwin-x64`
 
-This is the **x86_64-apple-darwin** binary for `@getexcitedapp/chompers`
+This is the **x86_64-apple-darwin** binary for `@getexcited/chompers`

@@ -37,7 +37,7 @@ switch (platform) {
           if (localFileExisted) {
             nativeBinding = require('./chompers.android-arm64.node')
           } else {
-            nativeBinding = require('@getexcitedapp/chompers-android-arm64')
+            nativeBinding = require('@getexcited/chompers-android-arm64')
           }
         } catch (e) {
           loadError = e
@@ -49,7 +49,7 @@ switch (platform) {
           if (localFileExisted) {
             nativeBinding = require('./chompers.android-arm-eabi.node')
           } else {
-            nativeBinding = require('@getexcitedapp/chompers-android-arm-eabi')
+            nativeBinding = require('@getexcited/chompers-android-arm-eabi')
           }
         } catch (e) {
           loadError = e
@@ -69,7 +69,7 @@ switch (platform) {
           if (localFileExisted) {
             nativeBinding = require('./chompers.win32-x64-msvc.node')
           } else {
-            nativeBinding = require('@getexcitedapp/chompers-win32-x64-msvc')
+            nativeBinding = require('@getexcited/chompers-win32-x64-msvc')
           }
         } catch (e) {
           loadError = e
@@ -83,7 +83,7 @@ switch (platform) {
           if (localFileExisted) {
             nativeBinding = require('./chompers.win32-ia32-msvc.node')
           } else {
-            nativeBinding = require('@getexcitedapp/chompers-win32-ia32-msvc')
+            nativeBinding = require('@getexcited/chompers-win32-ia32-msvc')
           }
         } catch (e) {
           loadError = e
@@ -97,7 +97,7 @@ switch (platform) {
           if (localFileExisted) {
             nativeBinding = require('./chompers.win32-arm64-msvc.node')
           } else {
-            nativeBinding = require('@getexcitedapp/chompers-win32-arm64-msvc')
+            nativeBinding = require('@getexcited/chompers-win32-arm64-msvc')
           }
         } catch (e) {
           loadError = e
@@ -113,7 +113,7 @@ switch (platform) {
       if (localFileExisted) {
         nativeBinding = require('./chompers.darwin-universal.node')
       } else {
-        nativeBinding = require('@getexcitedapp/chompers-darwin-universal')
+        nativeBinding = require('@getexcited/chompers-darwin-universal')
       }
       break
     } catch {}
@@ -124,7 +124,7 @@ switch (platform) {
           if (localFileExisted) {
             nativeBinding = require('./chompers.darwin-x64.node')
           } else {
-            nativeBinding = require('@getexcitedapp/chompers-darwin-x64')
+            nativeBinding = require('@getexcited/chompers-darwin-x64')
           }
         } catch (e) {
           loadError = e
@@ -138,7 +138,7 @@ switch (platform) {
           if (localFileExisted) {
             nativeBinding = require('./chompers.darwin-arm64.node')
           } else {
-            nativeBinding = require('@getexcitedapp/chompers-darwin-arm64')
+            nativeBinding = require('@getexcited/chompers-darwin-arm64')
           }
         } catch (e) {
           loadError = e
@@ -157,7 +157,7 @@ switch (platform) {
       if (localFileExisted) {
         nativeBinding = require('./chompers.freebsd-x64.node')
       } else {
-        nativeBinding = require('@getexcitedapp/chompers-freebsd-x64')
+        nativeBinding = require('@getexcited/chompers-freebsd-x64')
       }
     } catch (e) {
       loadError = e
@@ -174,7 +174,7 @@ switch (platform) {
             if (localFileExisted) {
               nativeBinding = require('./chompers.linux-x64-musl.node')
             } else {
-              nativeBinding = require('@getexcitedapp/chompers-linux-x64-musl')
+              nativeBinding = require('@getexcited/chompers-linux-x64-musl')
             }
           } catch (e) {
             loadError = e
@@ -187,7 +187,7 @@ switch (platform) {
             if (localFileExisted) {
               nativeBinding = require('./chompers.linux-x64-gnu.node')
             } else {
-              nativeBinding = require('@getexcitedapp/chompers-linux-x64-gnu')
+              nativeBinding = require('@getexcited/chompers-linux-x64-gnu')
             }
           } catch (e) {
             loadError = e
@@ -203,7 +203,7 @@ switch (platform) {
             if (localFileExisted) {
               nativeBinding = require('./chompers.linux-arm64-musl.node')
             } else {
-              nativeBinding = require('@getexcitedapp/chompers-linux-arm64-musl')
+              nativeBinding = require('@getexcited/chompers-linux-arm64-musl')
             }
           } catch (e) {
             loadError = e
@@ -216,7 +216,7 @@ switch (platform) {
             if (localFileExisted) {
               nativeBinding = require('./chompers.linux-arm64-gnu.node')
             } else {
-              nativeBinding = require('@getexcitedapp/chompers-linux-arm64-gnu')
+              nativeBinding = require('@getexcited/chompers-linux-arm64-gnu')
             }
           } catch (e) {
             loadError = e
@@ -232,7 +232,7 @@ switch (platform) {
             if (localFileExisted) {
               nativeBinding = require('./chompers.linux-arm-musleabihf.node')
             } else {
-              nativeBinding = require('@getexcitedapp/chompers-linux-arm-musleabihf')
+              nativeBinding = require('@getexcited/chompers-linux-arm-musleabihf')
             }
           } catch (e) {
             loadError = e
@@ -245,7 +245,7 @@ switch (platform) {
             if (localFileExisted) {
               nativeBinding = require('./chompers.linux-arm-gnueabihf.node')
             } else {
-              nativeBinding = require('@getexcitedapp/chompers-linux-arm-gnueabihf')
+              nativeBinding = require('@getexcited/chompers-linux-arm-gnueabihf')
             }
           } catch (e) {
             loadError = e
@@ -261,7 +261,7 @@ switch (platform) {
             if (localFileExisted) {
               nativeBinding = require('./chompers.linux-riscv64-musl.node')
             } else {
-              nativeBinding = require('@getexcitedapp/chompers-linux-riscv64-musl')
+              nativeBinding = require('@getexcited/chompers-linux-riscv64-musl')
             }
           } catch (e) {
             loadError = e
@@ -274,7 +274,7 @@ switch (platform) {
             if (localFileExisted) {
               nativeBinding = require('./chompers.linux-riscv64-gnu.node')
             } else {
-              nativeBinding = require('@getexcitedapp/chompers-linux-riscv64-gnu')
+              nativeBinding = require('@getexcited/chompers-linux-riscv64-gnu')
             }
           } catch (e) {
             loadError = e
@@ -289,7 +289,7 @@ switch (platform) {
           if (localFileExisted) {
             nativeBinding = require('./chompers.linux-s390x-gnu.node')
           } else {
-            nativeBinding = require('@getexcitedapp/chompers-linux-s390x-gnu')
+            nativeBinding = require('@getexcited/chompers-linux-s390x-gnu')
           }
         } catch (e) {
           loadError = e
@@ -310,6 +310,6 @@ if (!nativeBinding) {
   throw new Error(`Failed to load native binding`)
 }
 
-const { sum } = nativeBinding
+const { getAllWindows } = nativeBinding
 
-module.exports.sum = sum
+module.exports.getAllWindows = getAllWindows
