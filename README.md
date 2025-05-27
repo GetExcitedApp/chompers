@@ -1,168 +1,378 @@
-# Chompers
+# @getexcited/chompers
 
-A high-performance native Node.js addon for enumerating and analyzing windows on Windows systems. Built with Rust and NAPI-RS for optimal performance and memory safety.
+High-performance native Node.js addon for Windows screen recording and window enumeration, built with Rust and napi-rs.
 
 ## Features
 
-- **Fast Window Enumeration**: Efficiently enumerate all visible windows on the system
-- **Detailed Window Information**: Get comprehensive details about each window including:
-  - Window title and class name
-  - Process ID and executable path
-  - Monitor information and dimensions
-  - Focus state
-  - Multi-monitor detection
-  - Command line arguments
-- **Multi-Monitor Support**: Detect windows spanning multiple monitors
-- **Native Performance**: Built with Rust for maximum performance
-- **Type Safety**: Full TypeScript support with detailed type definitions
+### 🎥 Screen Recording
+
+- **High-performance recording** using Windows Desktop Duplication API
+- **No yellow border** during capture (unlike WGC API)
+- **Hardware-accelerated encoding** (H.264, HEVC)
+- **Audio capture** from desktop and microphone
+- **Replay buffer** functionality (similar to ShadowPlay)
+- **Process-specific recording** target specific applications
+- **Configurable quality** settings and output formats
+
+### 🪟 Window Management
+
+- **Window enumeration** with detailed metadata
+- **Multi-monitor support** with monitor information
+- **Process information** including executable paths and arguments
+- **Focus detection** and window state tracking
+- **Game detection** capabilities
 
 ## Installation
+
 ```bash
 npm install @getexcited/chompers
+# or
+yarn add @getexcited/chompers
 ```
 
-## Usage
+## Quick Start
 
-### Basic Window Enumeration
+### Screen Recording
 
-```javascript
-import { getAllWindows } from '@getexcited/chompers';
+```typescript
+import {
+  Recorder,
+  RecorderConfig,
+  AudioSource,
+  VideoEncoderType,
+} from "@getexcited/chompers";
 
-// Get all visible windows
+// Basic recording configuration
+const config: RecorderConfig = {
+  fpsNumerator: 30,
+  fpsDenominator: 1,
+  outputWidth: 1920,
+  outputHeight: 1080,
+  captureAudio: true,
+  captureMicrophone: false,
+  audioSource: AudioSource.Desktop,
+  videoEncoderType: VideoEncoderType.H264,
+  captureCursor: true,
+  outputPath: "recording.mp4",
+  debugMode: false,
+  enableReplayBuffer: false,
+};
+
+// Create recorder and target a specific process
+const recorder = new Recorder(config).withProcessName("notepad");
+
+// Start recording
+recorder.startRecording();
+
+// Record for 10 seconds
+setTimeout(() => {
+  recorder.stopRecording();
+  console.log("Recording completed!");
+}, 10000);
+```
+
+### Replay Buffer
+
+```typescript
+import {
+  Recorder,
+  RecorderConfigBuilder,
+  AudioSource,
+} from "@getexcited/chompers";
+
+// Create recorder with replay buffer
+const config = new RecorderConfigBuilder()
+  .fps(30, 1)
+  .outputDimensions(1920, 1080)
+  .captureAudio(true)
+  .audioSource(AudioSource.Desktop)
+  .enableReplayBuffer(true)
+  .replayBufferSeconds(30) // Keep last 30 seconds
+  .outputPath("main_recording.mp4")
+  .build();
+
+const recorder = new Recorder(config).withProcessName("game.exe");
+
+// Start recording with buffer
+recorder.startRecording();
+
+// Save replay when something interesting happens
+recorder.saveReplay("highlight.mp4");
+
+// Continue recording or stop
+recorder.stopRecording();
+```
+
+### Window Enumeration
+
+```typescript
+import { getAllWindows } from "@getexcited/chompers";
+
+// Get all windows with detailed information
 const windows = getAllWindows();
 
-console.log(`Found ${windows.length} windows`);
-
-// Print details of each window
-windows.forEach((window, index) => {
-  console.log(`Window ${index + 1}:`);
-  console.log(`  Title: "${window.title}"`);
-  console.log(`  Executable: ${window.executable}`);
-  console.log(`  PID: ${window.pid}`);
-  console.log(`  Focused: ${window.focused}`);
-  console.log(`  Monitor: ${window.monitorDimensions.width}x${window.monitorDimensions.height}`);
-  console.log(`  Spans Multiple Monitors: ${window.intersectsMultiple}`);
+windows.forEach((window) => {
+  console.log(`Title: ${window.title}`);
+  console.log(`Process: ${window.executable}`);
+  console.log(`PID: ${window.pid}`);
+  console.log(`Focused: ${window.focused}`);
+  console.log(
+    `Monitor: ${window.monitorDimensions.width}x${window.monitorDimensions.height}`
+  );
+  console.log("---");
 });
-```
-
-### Finding Specific Windows
-
-```javascript
-import { getAllWindows } from '@getexcited/chompers';
-
-const windows = getAllWindows();
-
-// Find all browser windows
-const browsers = windows.filter(w => 
-  w.executable.includes('chrome') || 
-  w.executable.includes('firefox') || 
-  w.executable.includes('edge')
-);
-
-// Find the currently focused window
-const focusedWindow = windows.find(w => w.focused);
-
-// Find windows on a specific monitor
-const primaryMonitorWindows = windows.filter(w => 
-  w.monitorDimensions.index === 0
-);
-
-// Find windows spanning multiple monitors
-const multiMonitorWindows = windows.filter(w => w.intersectsMultiple);
-```
-
-### Game Detection Example
-
-```javascript
-import { getAllWindows } from '@getexcited/chompers';
-
-const gameExecutables = [
-  'valorant.exe',
-  'csgo.exe',
-  'fortnite.exe',
-  'minecraft.exe',
-  // Add more game executables
-];
-
-const windows = getAllWindows();
-const gameWindows = windows.filter(window => 
-  gameExecutables.some(game => 
-    window.executable.toLowerCase().includes(game.toLowerCase())
-  )
-);
-
-if (gameWindows.length > 0) {
-  console.log('Detected games:');
-  gameWindows.forEach(game => {
-    console.log(`- ${game.title} (${game.executable})`);
-  });
-}
 ```
 
 ## API Reference
 
-### `getAllWindows(): WindowInfo[]`
+### Recording Classes
 
-Returns an array of all visible windows on the system.
+#### `Recorder`
 
-#### WindowInfo Interface
+Main recording class for capturing screen content.
 
 ```typescript
-interface WindowInfo {
-  className: string;           // Window class name
-  executable: string;          // Executable filename (e.g., "notepad.exe")
-  title: string;              // Window title
-  pid: number;                // Process ID
-  productName: string | null; // Product name (currently not implemented)
-  hwnd: number;               // Window handle
-  fullExe: string;            // Full path to executable
-  monitorDimensions: MonitorDimensions; // Monitor information
-  intersectsMultiple: boolean; // True if window spans multiple monitors
-  focused: boolean;           // True if window is currently focused
-  arguments: string[];        // Command line arguments
-}
-
-interface MonitorDimensions {
-  width: number;              // Monitor width in pixels
-  height: number;             // Monitor height in pixels
-  index: number;              // Monitor index (0-based)
+class Recorder {
+  constructor(config: RecorderConfig);
+  withProcessName(processName: string): Recorder;
+  startRecording(): void;
+  stopRecording(): void;
+  saveReplay(path: string): void;
 }
 ```
 
-## Use Cases
+#### `RecorderConfigBuilder`
 
-- **Game Detection**: Automatically detect running games for streaming software
-- **Window Management**: Build custom window managers or productivity tools
-- **System Monitoring**: Monitor application usage and window states
-- **Multi-Monitor Setup**: Manage windows across multiple displays
-- **Automation**: Automate window-related tasks and workflows
+Fluent builder for creating recorder configurations.
 
-## Performance
+```typescript
+class RecorderConfigBuilder {
+  fps(numerator: number, denominator: number): this;
+  inputDimensions(width: number, height: number): this;
+  outputDimensions(width: number, height: number): this;
+  captureAudio(capture: boolean): this;
+  captureMicrophone(capture: boolean): this;
+  audioSource(source: AudioSource): this;
+  microphoneVolume(volume: number): this;
+  systemVolume(volume: number): this;
+  microphoneDevice(deviceName?: string): this;
+  videoEncoder(encoderType: VideoEncoderType): this;
+  videoEncoderName(name: string): this;
+  captureCursor(capture: boolean): this;
+  outputPath(path: string): this;
+  debugMode(debug: boolean): this;
+  enableReplayBuffer(enable: boolean): this;
+  replayBufferSeconds(seconds: number): this;
+  build(): RecorderConfig;
+}
+```
 
-Chompers is built with Rust and uses native Windows APIs for optimal performance:
+### Configuration Types
 
-- **Fast Enumeration**: Efficiently processes hundreds of windows
-- **Low Memory Usage**: Minimal memory footprint
-- **Native Speed**: No overhead from interpreted languages
-- **Thread Safe**: Safe for use in multi-threaded Node.js applications
+#### `RecorderConfig`
 
-## Platform Support
+```typescript
+interface RecorderConfig {
+  fpsNumerator: number; // Frame rate numerator
+  fpsDenominator: number; // Frame rate denominator
+  inputWidth?: number; // Input resolution width (auto-detected if not set)
+  inputHeight?: number; // Input resolution height (auto-detected if not set)
+  outputWidth: number; // Output resolution width
+  outputHeight: number; // Output resolution height
+  captureAudio: boolean; // Enable system audio capture
+  captureMicrophone: boolean; // Enable microphone capture
+  audioSource: AudioSource; // Desktop or ActiveWindow
+  microphoneVolume?: number; // Microphone volume (0.0-1.0)
+  systemVolume?: number; // System audio volume (0.0-1.0)
+  microphoneDevice?: string; // Specific microphone device name
+  videoEncoderType?: VideoEncoderType; // H264 or HEVC
+  videoEncoderName?: string; // Specific encoder name
+  captureCursor: boolean; // Include cursor in recording
+  outputPath: string; // Output file path
+  debugMode: boolean; // Enable debug logging
+  enableReplayBuffer: boolean; // Enable replay buffer feature
+  replayBufferSeconds?: number; // Replay buffer duration in seconds
+}
+```
 
-- **Windows**: Full support (Windows 10/11 recommended)
-- **macOS**: Not supported
-- **Linux**: Not supported
+#### `WindowInfo`
 
-## Requirements
+```typescript
+interface WindowInfo {
+  className: string; // Window class name
+  executable: string; // Executable name
+  title: string; // Window title
+  pid: number; // Process ID
+  productName?: string; // Product name from executable
+  hwnd: number; // Window handle
+  fullExe: string; // Full executable path
+  monitorDimensions: MonitorDimensions; // Monitor information
+  intersectsMultiple: boolean; // Spans multiple monitors
+  focused: boolean; // Currently focused window
+  arguments: Array<string>; // Process arguments
+}
+```
 
-- Node.js 16 or higher
-- Windows 10 or higher
+### Enums
+
+#### `AudioSource`
+
+```typescript
+enum AudioSource {
+  Desktop = "Desktop", // Capture all system audio
+  ActiveWindow = "ActiveWindow", // Capture audio from target window only
+}
+```
+
+#### `VideoEncoderType`
+
+```typescript
+enum VideoEncoderType {
+  H264 = "H264", // H.264/AVC encoding
+  HEVC = "HEVC", // H.265/HEVC encoding
+}
+```
+
+### Utility Functions
+
+#### Audio Device Management
+
+```typescript
+// Enumerate available audio input devices
+function enumerateAudioInputDevices(): AudioInputDevice[];
+
+// Get preferred video encoder by type
+function getPreferredVideoEncoderByType(
+  encoderType: VideoEncoderType
+): VideoEncoder | null;
+
+// Enumerate available video encoders
+function enumerateVideoEncoders(): VideoEncoder[];
+```
+
+#### Window Management
+
+```typescript
+// Get all windows with detailed information
+function getAllWindows(): WindowInfo[];
+```
+
+## Examples
+
+The `examples/` directory contains comprehensive TypeScript examples:
+
+- **`basic_recording.ts`** - Basic screen recording setup
+- **`replay_buffer.ts`** - Replay buffer functionality
+- **`select_audio_device.ts`** - Audio device enumeration and selection
+- **`select_video_encoder.ts`** - Video encoder enumeration and selection
+
+Run examples with:
+
+```bash
+# Show available examples
+yarn examples
+
+# Run specific examples
+yarn example:basic
+yarn example:replay
+yarn example:audio
+yarn example:encoder
+```
+
+## System Requirements
+
+- **Operating System**: Windows 10/11 (x64)
+- **Node.js**: 16.0.0 or higher
+- **Hardware**: GPU with hardware encoding support (recommended)
+- **Drivers**: Up-to-date GPU drivers for optimal performance
+
+## Performance Considerations
+
+### Optimal Settings
+
+- **Resolution**: 1920x1080 or lower for best performance
+- **Frame Rate**: 30 FPS provides good quality/performance balance
+- **Encoder**: H.264 for compatibility, HEVC for better compression
+- **Audio**: Disable microphone if not needed
+
+### Hardware Acceleration
+
+The library automatically uses hardware-accelerated encoding when available:
+
+- **NVIDIA**: NVENC (H.264/HEVC)
+- **AMD**: VCE (H.264/HEVC)
+- **Intel**: Quick Sync Video (H.264/HEVC)
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Recording fails to start**
+
+   - Ensure target process exists
+   - Check output path permissions
+   - Verify sufficient disk space
+
+2. **No audio captured**
+
+   - Check Windows audio permissions
+   - Verify target application produces audio
+   - Try different audio sources
+
+3. **Poor performance**
+
+   - Lower output resolution
+   - Reduce frame rate
+   - Update GPU drivers
+   - Close unnecessary applications
+
+4. **No video encoders found**
+   - Update GPU drivers
+   - Install Windows Media Feature Pack
+   - Try different encoder types
+
+### Debug Mode
+
+Enable debug logging for troubleshooting:
+
+```typescript
+const config: RecorderConfig = {
+  // ... other options
+  debugMode: true,
+};
+```
+
+## Building from Source
+
+```bash
+# Clone the repository
+git clone https://github.com/GetExcitedApp/chompers.git
+cd chompers
+
+# Install dependencies
+yarn install
+
+# Build the native addon
+yarn build
+
+# Run tests
+yarn test
+```
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit issues and pull requests.
+Contributions are welcome! Please read our contributing guidelines and submit pull requests to the main repository.
 
 ## License
 
-GNU General Public License v3.0 - see LICENSE file for details.
+This project is licensed under the GPL-3.0-only License. See the [LICENSE](LICENSE) file for details.
 
- 
+## Acknowledgments
+
+- Built with [napi-rs](https://napi.rs/) for Node.js native addon development
+- Uses [windows-record](https://github.com/judehek/windows-record) for core recording functionality
+- Powered by Windows Desktop Duplication API for efficient screen capture
+
+---
+
+**Note**: This library is Windows-only and requires Windows 10 or later. For cross-platform solutions, consider other recording libraries.

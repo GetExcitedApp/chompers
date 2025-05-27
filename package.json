@@ -1,12 +1,15 @@
 {
   "name": "@getexcited/chompers",
   "version": "1.0.0",
-  "description": "High-performance native Node.js addon for enumerating and analyzing windows on Windows systems",
+  "description": "High-performance native Node.js addon for Windows screen recording and window enumeration",
   "main": "index.js",
   "types": "index.d.ts",
   "keywords": [
     "windows",
     "window-enumeration",
+    "screen-recording",
+    "video-capture",
+    "audio-capture",
     "native",
     "rust",
     "napi",
@@ -14,7 +17,8 @@
     "monitor",
     "multi-monitor",
     "window-management",
-    "system"
+    "system",
+    "replay-buffer"
   ],
   "author": "Chompers Contributors",
   "repository": "https://github.com/GetExcitedApp/chompers",
@@ -29,7 +33,10 @@
   "license": "GPL-3.0-only",
   "devDependencies": {
     "@napi-rs/cli": "^2.18.4",
-    "ava": "^6.0.1"
+    "@types/node": "^22.10.7",
+    "ava": "^6.0.1",
+    "tsx": "^4.19.4",
+    "typescript": "^5.7.3"
   },
   "ava": {
     "timeout": "3m"
@@ -47,7 +54,12 @@
     "prepublishOnly": "napi prepublish -t npm",
     "test": "ava",
     "universal": "napi universal",
-    "version": "napi version"
+    "version": "napi version",
+    "example:basic": "tsx examples/basic_recording.ts",
+    "example:replay": "tsx examples/replay_buffer.ts",
+    "example:audio": "tsx examples/select_audio_device.ts",
+    "example:encoder": "tsx examples/select_video_encoder.ts",
+    "examples": "echo \"Available examples:\" && echo \"  yarn example:basic    - Basic screen recording\" && echo \"  yarn example:replay   - Replay buffer demo\" && echo \"  yarn example:audio    - Audio device selection\" && echo \"  yarn example:encoder  - Video encoder selection\""
   },
   "packageManager": "yarn@4.9.1"
 }

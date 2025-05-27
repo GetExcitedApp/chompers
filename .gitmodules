@@ -1,0 +1,3 @@
+[submodule "windows-record"]
+	path = windows-record
+	url = git@github.com:GetExcitedApp/windows-record.git

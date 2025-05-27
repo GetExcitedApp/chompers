@@ -310,6 +310,13 @@ if (!nativeBinding) {
   throw new Error(`Failed to load native binding`)
 }
 
-const { getAllWindows } = nativeBinding
+const { VideoEncoderType, AudioSource, Recorder, enumerateAudioInputDevices, enumerateVideoEncoders, getPreferredVideoEncoderByType, RecorderConfigBuilder, getAllWindows } = nativeBinding
 
+module.exports.VideoEncoderType = VideoEncoderType
+module.exports.AudioSource = AudioSource
+module.exports.Recorder = Recorder
+module.exports.enumerateAudioInputDevices = enumerateAudioInputDevices
+module.exports.enumerateVideoEncoders = enumerateVideoEncoders
+module.exports.getPreferredVideoEncoderByType = getPreferredVideoEncoderByType
+module.exports.RecorderConfigBuilder = RecorderConfigBuilder
 module.exports.getAllWindows = getAllWindows
