@@ -120,6 +120,41 @@ npx tsx examples/select_video_encoder.ts
 3. Falls back to system preferred encoder if none selected
 4. Records with the selected encoder
 
+### 5. Window Enumeration (`get-windows.ts`)
+
+Demonstrates comprehensive window enumeration and analysis capabilities.
+
+**Features:**
+
+- Complete window enumeration with detailed metadata
+- Focused window detection
+- Multi-monitor support and analysis
+- Common application filtering
+- Process and executable information
+- Statistical analysis of window data
+
+**Usage:**
+
+```bash
+npx tsx examples/get-windows.ts
+```
+
+**Information displayed:**
+
+- Window titles, class names, and handles
+- Process IDs and executable paths
+- Monitor dimensions and multi-monitor detection
+- Focus state and product information
+- Process arguments and command-line parameters
+- Summary statistics and categorization
+
+**Use cases:**
+
+- System monitoring and analysis
+- Game detection for recording targets
+- Multi-monitor setup analysis
+- Process management and debugging
+
 ## Common Configuration Options
 
 ### RecorderConfig Interface

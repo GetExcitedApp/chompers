@@ -59,7 +59,8 @@
     "example:replay": "tsx examples/replay_buffer.ts",
     "example:audio": "tsx examples/select_audio_device.ts",
     "example:encoder": "tsx examples/select_video_encoder.ts",
-    "examples": "echo \"Available examples:\" && echo \"  yarn example:basic    - Basic screen recording\" && echo \"  yarn example:replay   - Replay buffer demo\" && echo \"  yarn example:audio    - Audio device selection\" && echo \"  yarn example:encoder  - Video encoder selection\""
+    "example:windows": "tsx examples/get-windows.ts",
+    "examples": "echo \"Available examples:\" && echo \"  yarn example:basic    - Basic screen recording\" && echo \"  yarn example:replay   - Replay buffer demo\" && echo \"  yarn example:audio    - Audio device selection\" && echo \"  yarn example:encoder  - Video encoder selection\" && echo \"  yarn example:windows  - Window enumeration demo\""
   },
   "packageManager": "yarn@4.9.1"
 }
