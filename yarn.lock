@@ -185,10 +185,10 @@ __metadata:
   resolution: "@getexcited/chompers@workspace:."
   dependencies:
     "@napi-rs/cli": "npm:^2.18.4"
-    "@types/node": "npm:^22.15.23"
+    "@types/node": "npm:^22.10.7"
     ava: "npm:^6.0.1"
     tsx: "npm:^4.19.4"
-    typescript: "npm:^5.8.3"
+    typescript: "npm:^5.7.3"
   languageName: unknown
   linkType: soft
 
@@ -327,7 +327,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^22.15.23":
+"@types/node@npm:^22.10.7":
   version: 22.15.23
   resolution: "@types/node@npm:22.15.23"
   dependencies:
@@ -2023,7 +2023,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^5.8.3":
+"typescript@npm:^5.7.3":
   version: 5.8.3
   resolution: "typescript@npm:5.8.3"
   bin:
@@ -2033,7 +2033,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A^5.8.3#optional!builtin<compat/typescript>":
+"typescript@patch:typescript@npm%3A^5.7.3#optional!builtin<compat/typescript>":
   version: 5.8.3
   resolution: "typescript@patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"
   bin:
